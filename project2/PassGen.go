@@ -6,20 +6,6 @@ import (
 	"strconv"
 )
 
-/*
-*Генератор случайных паролей
-*Задание: Создайте утилиту для генерации случайных паролей с использованием заданной длины.
-*Инициализация:
-
-*mkdir password-generator && cd password-generator
-*go mod init password-generator
-
-*Этапы:
-*Определить набор символов для генерации.
-*Реализовать функцию генерации.
-*Добавить опцию для ввода длины пароля.
- */
-
 func read(len *int, mode *string) error {
 	var buf string
 	var err error
