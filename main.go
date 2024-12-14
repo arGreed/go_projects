@@ -1,7 +1,7 @@
 package main
 
-import toDoList "go_projects/project1"
+import rssParser "go_projects/project6"
 
 func main() {
-	toDoList.ToDOList()
+	rssParser.RssParser()
 }
