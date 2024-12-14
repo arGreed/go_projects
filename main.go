@@ -1,7 +1,7 @@
 package main
 
-import rssParser "go_projects/project6"
+import stash "go_projects/project8"
 
 func main() {
-	rssParser.RssParser()
+	stash.Shop()
 }
