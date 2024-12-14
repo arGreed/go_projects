@@ -19,8 +19,15 @@ type Product struct {
 	Price  int    `json:"Price"`
 }
 
+type usrStash struct {
+	id     int
+	amount int
+	price  int
+}
+
 var (
-	products           = make(map[int]Product)
+	products    = make(map[int]Product)
+	stash       []usrStash
 	storagePath string = "project8/storage.json"
 	curId       int    = 1
 )
@@ -47,7 +54,70 @@ const (
 )
 
 // Команды пользователя
-const ()
+const (
+	usrCommandShow      = "show"
+	usrCommandAddToCart = "add"
+	usrCommandBuy       = "buy"
+)
+
+func userBuy() error {
+
+}
+
+func userShow() error {
+	if len(products) > 0 {
+		for _, i := range products {
+			fmt.Println("name:", i.Name, " price:", i.Price)
+		}
+	} else {
+		fmt.Printf("Нет информации о товарах.")
+	}
+	return nil
+}
+
+func userAdd() error {
+	var s string
+	var id int = 0
+	var cnt int
+	var err error
+	var userStash usrStash
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Введите ид покупаемого товара:")
+	for {
+		if scanner.Scan() {
+			s = scanner.Text()
+		}
+		if s == comCommandExit {
+			return nil
+		}
+		id, err = strconv.Atoi(s)
+		if err == nil || products[id].Id != 0 {
+			break
+		}
+		fmt.Println("Некорректный ввод!")
+	}
+	for {
+		if scanner.Scan() {
+			s = scanner.Text()
+		}
+		if s == comCommandExit {
+			return nil
+		}
+		cnt, err = strconv.Atoi(s)
+		if err == nil {
+			break
+		}
+		fmt.Println("Некорректный ввод!")
+	}
+	if products[id].Amount < cnt {
+		fmt.Println("Такое количество товара отсутствует на складе, измените заказ!")
+		return nil
+	}
+	userStash.id = id
+	userStash.price = products[id].Price * cnt
+	stash = append(stash, userStash)
+	return nil
+}
 
 // Суперпользователь
 func adminMode() {
