@@ -1,7 +1,7 @@
 package main
 
-import stash "go_projects/project8"
+import logAnalyze "go_projects/project9"
 
 func main() {
-	stash.Shop()
+	logAnalyze.LogAnalyze()
 }
