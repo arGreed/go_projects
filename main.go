@@ -1,7 +1,9 @@
 package main
 
-import logAnalyze "go_projects/project9"
+import (
+	notes "go_projects/project10"
+)
 
 func main() {
-	logAnalyze.LogAnalyze()
+	notes.Notes()
 }
