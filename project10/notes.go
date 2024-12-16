@@ -16,7 +16,7 @@ type Note struct {
 	Id          int    `json:"Id"`
 	StatusRate  int    `json:"StatusRate"`
 	Name        string `json:"Name"`
-	Description string `json:""`
+	Description string `json:"Description"`
 }
 
 func logPrepare() (*os.File, error) {
