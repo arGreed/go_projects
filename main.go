@@ -1,9 +1,9 @@
 package main
 
 import (
-	notes "go_projects/project10"
+	calculator "go_projects/project12"
 )
 
 func main() {
-	notes.Notes()
+	calculator.Calculator()
 }
