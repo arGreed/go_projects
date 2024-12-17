@@ -1,9 +1,9 @@
 package main
 
 import (
-	calculator "go_projects/project12"
+	grcoder "go_projects/project14"
 )
 
 func main() {
-	calculator.Calculator()
+	grcoder.GrCoder()
 }
