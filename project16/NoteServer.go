@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 const logFile = "project16/test.log"
@@ -40,7 +41,7 @@ func addNote(noteLst *map[int]Note, mId *int) http.HandlerFunc {
 		}
 		note.Id = *mId
 		*mId++
-		(*noteLst)[*mId] = note
+		(*noteLst)[note.Id] = note
 		err = storageSave(noteLst)
 		if err != nil {
 			http.Error(w, "Passed invalid json", http.StatusInternalServerError)
@@ -53,20 +54,115 @@ func addNote(noteLst *map[int]Note, mId *int) http.HandlerFunc {
 	}
 }
 
-func deleteNote(w http.ResponseWriter, r *http.Request) {
+func deleteNote(noteLst *map[int]Note, mId *int) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// var note Note
+		if r.Method != http.MethodDelete {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
+		params := r.URL.Query()
+		var buf int
+		var err error
 
+		buf, err = strconv.Atoi(params.Get("Id"))
+
+		if err != nil {
+			http.Error(w, "Id is missing", http.StatusBadRequest)
+			return
+		}
+
+		if (*noteLst)[buf].Id == 0 || buf > *mId {
+			http.Error(w, "Id not found", http.StatusNotFound)
+			return
+		}
+
+		delete(*noteLst, buf)
+		storageSave(noteLst)
+
+		w.WriteHeader(http.StatusGone)
+	}
 }
 
-func updateNote(w http.ResponseWriter, r *http.Request) {
+func updateNote(noteLst *map[int]Note) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPut {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
 
+		params := r.URL.Query()
+
+		buf, err := strconv.Atoi(params.Get("Id"))
+
+		if err != nil {
+			http.Error(w, "Param is missing", http.StatusBadRequest)
+			return
+		}
+		var note Note
+
+		err = json.NewDecoder(r.Body).Decode(&note)
+
+		if err != nil {
+			http.Error(w, "Json is corrupted", http.StatusBadRequest)
+			return
+		}
+		if !isValid(&note) {
+			http.Error(w, "Invalid value", http.StatusBadRequest)
+			return
+		}
+		if (*noteLst)[buf].Id == 0 {
+			http.Error(w, "Not found", http.StatusNotFound)
+			return
+		}
+		note.Id = buf
+
+		(*noteLst)[buf] = note
+		storageSave(noteLst)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(note)
+	}
 }
 
-func showNote(w http.ResponseWriter, r *http.Request) {
+func showNote(noteLst *map[int]Note) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
 
+		params := r.URL.Query()
+
+		buf, err := strconv.Atoi(params.Get("Id"))
+
+		if err != nil {
+			http.Error(w, "Param is missing", http.StatusBadRequest)
+			return
+		}
+
+		if (*noteLst)[buf].Id == 0 {
+			http.Error(w, "Not found", http.StatusNotFound)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode((*noteLst)[buf])
+	}
 }
 
-func allNotes(w http.ResponseWriter, r *http.Request) {
-
+func allNotes(noteLst *map[int]Note) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		encoder := json.NewEncoder(w)
+		encoder.Encode(noteLst)
+	}
 }
 
 func logPrepare() (*os.File, error) {
@@ -145,10 +241,10 @@ func ToDoServer() {
 
 	h := http.NewServeMux()
 	h.HandleFunc("/Notes/add", addNote(&noteLst, &noteCurId))
-	h.HandleFunc("/Notes/delete", deleteNote)
-	h.HandleFunc("/Notes/update", updateNote)
-	h.HandleFunc("/Notes/show", showNote)
-	h.HandleFunc("/Notes", allNotes)
+	h.HandleFunc("/Notes/delete", deleteNote(&noteLst, &noteCurId))
+	h.HandleFunc("/Notes/update", updateNote(&noteLst))
+	h.HandleFunc("/Notes/show", showNote(&noteLst))
+	h.HandleFunc("/Notes", allNotes(&noteLst))
 
 	http.ListenAndServe("localhost:8080", h)
 }
