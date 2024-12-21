@@ -1,9 +1,9 @@
 package main
 
 import (
-	toDoServer "go_projects/project16"
+	curseController "go_projects/project17"
 )
 
 func main() {
-	toDoServer.ToDoServer()
+	curseController.CurseController()
 }
