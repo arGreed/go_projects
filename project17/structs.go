@@ -9,7 +9,7 @@ import (
 // Структура пользователя.
 type User struct {
 	Id       int    `gorm:"primaryKey" json:"-"`
-	Age      int    `gorm:"unique; not null" json:"Age"`
+	Age      int    `gorm:"not null" json:"Age"`
 	Name     string `gorm:"unique; not null" json:"Name"`
 	Email    string `gorm:"unique; not null" json:"Email"`
 	Password string `gorm:"not null" json:"Password"`
