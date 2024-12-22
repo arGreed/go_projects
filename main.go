@@ -1,9 +1,7 @@
 package main
 
-import (
-	curseController "go_projects/project17"
-)
+import simpleWeb "go_projects/project20"
 
 func main() {
-	curseController.CurseController()
+	simpleWeb.WebServer()
 }

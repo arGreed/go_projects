@@ -1,0 +1,4 @@
+2024/12/22 22:44:43 &{GET /ping HTTP/1.1 1 1 map[Accept:[*/*] Accept-Encoding:[gzip, deflate, br] Connection:[keep-alive] Postman-Token:[ec0f8bf2-49bc-44c6-a154-f2b498aac76a] User-Agent:[PostmanRuntime/7.43.0]] {} <nil> 0 [] false localhost:8081 map[] map[] <nil> map[] 127.0.0.1:54574 /ping <nil> <nil> <nil>  0xc000184050 <nil> [] map[]}
+2024/12/22 22:45:38 {}
+2024/12/22 22:49:05 GET   /ping
+2024/12/22 22:49:22 GET /ping
