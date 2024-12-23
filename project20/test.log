@@ -2,3 +2,61 @@
 2024/12/22 22:45:38 {}
 2024/12/22 22:49:05 GET   /ping
 2024/12/22 22:49:22 GET /ping
+2024/12/23 23:11:01 POST /Note
+2024/12/23 23:11:01 Corrupted json passed.
+2024/12/23 23:11:55 POST /Note
+2024/12/23 23:11:55 Corrupted json passed.
+2024/12/23 23:11:56 POST /Note
+2024/12/23 23:11:56 Corrupted json passed.
+2024/12/23 23:13:27 POST /Note
+2024/12/23 23:13:27 Corrupted json passed.
+2024/12/23 23:14:07 POST /Note
+2024/12/23 23:14:07 Corrupted json passed.
+2024/12/23 23:14:36 POST /Note
+2024/12/23 23:14:36 Corrupted json passed.
+2024/12/23 23:14:42 POST /Note
+2024/12/23 23:14:42 Corrupted json passed.
+2024/12/23 23:14:47 POST /Note
+2024/12/23 23:14:47 Corrupted json passed.
+2024/12/23 23:15:04 POST /Note
+2024/12/23 23:15:04 Corrupted json passed.
+2024/12/23 23:15:15 POST /Note
+2024/12/23 23:15:15 Corrupted json passed.
+2024/12/23 23:17:01 POST /Note
+2024/12/23 23:17:01 Corrupted json passed.
+2024/12/23 23:18:40 POST /Note
+2024/12/23 23:18:40 Corrupted json passed.
+2024/12/23 23:18:45 POST /Note
+2024/12/23 23:18:45 Corrupted json passed.
+2024/12/23 23:19:22 POST /Note
+2024/12/23 23:19:22 {0  }
+2024/12/23 23:19:22 Corrupted json passed.
+2024/12/23 23:21:37 POST /Note
+2024/12/23 23:21:37 {0  }
+2024/12/23 23:21:37 Corrupted json passed.
+2024/12/23 23:22:08 POST /Note
+2024/12/23 23:22:08 {0  }
+2024/12/23 23:22:08 Corrupted json passed.
+2024/12/23 23:24:01 POST /Note
+2024/12/23 23:24:01 {0  }
+2024/12/23 23:24:01 Corrupted json passed.
+2024/12/23 23:24:25 POST /Note
+2024/12/23 23:24:25 {0  }
+2024/12/23 23:24:25 Corrupted json passed.
+2024/12/23 23:24:29 POST /Note
+2024/12/23 23:24:29 {0  }
+2024/12/23 23:24:29 Corrupted json passed.
+2024/12/23 23:26:16 POST /Note
+2024/12/23 23:26:16 {0  }
+2024/12/23 23:26:16 Corrupted json passed.
+2024/12/23 23:28:27 POST /Note
+2024/12/23 23:28:27 {0 Meeting Notes Discuss project timeline and deliverables.}
+2024/12/23 23:30:31 POST /Note
+2024/12/23 23:30:31 {0 Meeting Notes Discuss project timeline and deliverables.}
+2024/12/23 23:30:51 DELETE /Note/1
+2024/12/23 23:30:51 Передан некорректный параметр.
+2024/12/23 23:30:56 DELETE /Note/0
+2024/12/23 23:30:56 Передан некорректный параметр.
+2024/12/23 23:31:21 GET /Notes
+2024/12/23 23:32:16 DELETE /Note/1
+2024/12/23 23:32:16 Передан некорректный параметр.
