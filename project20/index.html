@@ -1,0 +1,21 @@
+<!-- project20/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+</head>
+<body>
+    <h1>Notes</h1>
+    <ul>
+        {{range .Notes}}
+        <li>
+            <strong>ID:</strong> {{.Id}}<br>
+            <strong>Name:</strong> {{.Name}}<br>
+            <strong>Description:</strong> {{.Description}}
+        </li>
+        {{end}}
+    </ul>
+</body>
+</html>

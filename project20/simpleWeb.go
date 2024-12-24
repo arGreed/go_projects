@@ -146,12 +146,18 @@ func showAll(noteList *map[int]Note) gin.HandlerFunc {
 		if len((*noteList)) == 0 {
 			log.Println("Нет сохранённых заметок.")
 			c.JSON(http.StatusNoContent, gin.H{"error": "Нет сохранённых заметок."})
-
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"note": (*noteList)})
+		// Преобразуем данные в слайс для передачи в шаблон
+		var notes []Note
+		for _, note := range *noteList {
+			notes = append(notes, note)
+		}
 
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"Notes": notes,
+		})
 	}
 }
 
@@ -236,7 +242,10 @@ func WebServer() {
 	if *maxId == 0 {
 		*maxId = 1
 	}
+
 	router := gin.Default()
+
+	router.LoadHTMLFiles("project20/index.html")
 
 	router.GET("/ping", logMiddleware(), ping)
 	router.POST("/Note", logMiddleware(), addNote(maxId, noteList))
