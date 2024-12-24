@@ -1,7 +1,9 @@
 package main
 
-import simpleWeb "go_projects/project20"
+import (
+	feedBack "go_projects/project21"
+)
 
 func main() {
-	simpleWeb.WebServer()
+	feedBack.FeedBack()
 }

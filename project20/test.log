@@ -62,3 +62,13 @@
 2024/12/23 23:32:16 Передан некорректный параметр.
 2024/12/23 23:32:57 GET /Notes
 2024/12/23 23:33:00 DELETE /Note/1
+2024/12/24 21:47:50 GET /Notes
+2024/12/24 21:48:10 GET /Notes
+2024/12/24 21:48:23 POST /Note
+2024/12/24 21:48:23 {0 Meeting Notes Discuss project timeline and deliverables.}
+2024/12/24 21:48:24 POST /Note
+2024/12/24 21:48:24 {0 Meeting Notes Discuss project timeline and deliverables.}
+2024/12/24 21:48:25 POST /Note
+2024/12/24 21:48:25 {0 Meeting Notes Discuss project timeline and deliverables.}
+2024/12/24 21:48:27 GET /Notes
+2024/12/24 21:48:31 GET /Notes
