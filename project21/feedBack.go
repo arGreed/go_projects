@@ -39,7 +39,7 @@ func submit(c *gin.Context) {
 	}
 
 	// Вывод данных в консоль (или сохранение в базу данных)
-	fmt.Printf("Received Feedback: %+v\n", feedback)
+	log.Println("Received Feedback:\n", feedback)
 
 	// Ответ пользователю
 	c.JSON(http.StatusOK, gin.H{"message": "Feedback received successfully!"})
@@ -61,7 +61,7 @@ func FeedBack() {
 	router.LoadHTMLFiles("project21/feedback.html")
 	router.GET("/ping", logMiddleware(), ping)
 	router.GET("/feedback", showForm)
-	router.POST("/submit", submit)
+	router.POST("/submit", logMiddleware(), submit)
 
 	router.Run("localhost:8081")
 }
