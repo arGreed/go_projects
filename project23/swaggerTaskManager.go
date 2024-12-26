@@ -51,6 +51,10 @@ func prepareDB(db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
+	err = db.AutoMigrate(&Task{})
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -73,10 +77,6 @@ func logInit() (*os.File, error) {
 	}
 	log.SetOutput(file)
 	return file, err
-}
-
-func ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"status": "connected"})
 }
 
 func logMiddleware(c *gin.Context) {
@@ -105,44 +105,11 @@ func (login Login) isValid() bool {
 	return true
 }
 
-func register(db *gorm.DB) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var user User
-		err := c.ShouldBindJSON(&user)
-		if err != nil || !validate(&user) {
-			log.Println("Получены данные в ненадлежащем формате.")
-			c.JSON(http.StatusBadRequest, gin.H{"error": "corrupted json passed"})
-			return
-		}
-		result := db.Create(&user)
-		if result.Error != nil {
-			log.Println(result.Error)
-			c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{"User added": user})
+func (task Task) isValid() bool {
+	if task.Description == "" || task.Name == "" {
+		return false
 	}
-}
-
-func login(db *gorm.DB) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var login Login
-		var user User
-		err := c.ShouldBindJSON(&login)
-		if err != nil || !validate(&login) {
-			log.Println("Получены данные в ненадлежащем формате.")
-			c.JSON(http.StatusBadRequest, gin.H{"error": "corrupted json passed"})
-			return
-		}
-		result := db.Where("email = ? and password = ?", login.Email, login.Password).First(&user)
-		if result.Error != nil {
-			log.Println(result.Error)
-			c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
-			return
-		}
-		token, err := generateJWT(&user)
-		c.JSON(http.StatusOK, gin.H{"token": token})
-	}
+	return true
 }
 
 func authMiddleware(c *gin.Context) {
@@ -184,22 +151,6 @@ func authMiddleware(c *gin.Context) {
 	c.Next()
 }
 
-func showMe(c *gin.Context) {
-	var claims Claims
-	a, _ := c.Get("userId")
-	claims.UserId = a.(int64)
-
-	a, _ = c.Get("userId")
-	claims.UserPassword = a.(string)
-	a, _ = c.Get("userId")
-	claims.UserName = a.(string)
-	a, _ = c.Get("userId")
-	claims.UserEmail = a.(string)
-	a, _ = c.Get("userId")
-	claims.UserRole = a.(string)
-	c.JSON(http.StatusOK, gin.H{"you": claims})
-}
-
 func SwTask() {
 	logPtr, err := logInit()
 	if err != nil {
@@ -214,12 +165,22 @@ func SwTask() {
 	}
 
 	router := gin.Default()
-
+	// Проверка коннекции.
 	router.GET("/ping", logMiddleware, ping)
+	// Регистрация.
 	router.POST("/register", logMiddleware, register(db))
+	// Логин.
 	router.POST("/login", logMiddleware, login(db))
-
+	// Получить информацию о себе.
 	router.GET("/showMe", logMiddleware, authMiddleware, showMe)
+	// Добавить задачу в базу.
+	router.POST("/task/add", logMiddleware, authMiddleware, addTask(db))
+	// Админ список задач.
+	router.GET("/task/all", logMiddleware, authMiddleware, allTask(db))
+	// Админ список пользователей.
+	router.GET("/user/all", logMiddleware, authMiddleware, allUser(db))
+	// Админ удаление пользователя.
+	router.GET("/user/delete/:id", logMiddleware, authMiddleware, delUser(db))
 
 	router.Run("localhost:8081")
 }

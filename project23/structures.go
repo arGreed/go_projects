@@ -23,3 +23,9 @@ type Claims struct {
 	UserRole     string `json:"user_role"`
 	jwt.RegisteredClaims
 }
+
+type Task struct {
+	Id          int64  `json:"-" gorm:"primaryKey"`
+	Name        string `json:"Name" gorm:"not null"`
+	Description string `json:"Description" gorm:"not null"`
+}
