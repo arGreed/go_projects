@@ -1,9 +1,9 @@
 package main
 
 import (
-	feedBack "go_projects/project21"
+	swTaskManager "go_projects/project23"
 )
 
 func main() {
-	feedBack.FeedBack()
+	swTaskManager.SwTask()
 }

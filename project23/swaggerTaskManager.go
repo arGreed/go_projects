@@ -180,7 +180,9 @@ func SwTask() {
 	// Админ список пользователей.
 	router.GET("/user/all", logMiddleware, authMiddleware, allUser(db))
 	// Админ удаление пользователя.
-	router.GET("/user/delete/:id", logMiddleware, authMiddleware, delUser(db))
+	router.DELETE("/user/delete/:id", logMiddleware, authMiddleware, delUser(db))
+	router.DELETE("/task/delete/:id", logMiddleware, authMiddleware, delTask(db))
+	router.PUT("/task/update/:id", logMiddleware, authMiddleware, updateTask(db))
 
 	router.Run("localhost:8081")
 }

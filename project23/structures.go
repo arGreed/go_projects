@@ -26,6 +26,7 @@ type Claims struct {
 
 type Task struct {
 	Id          int64  `json:"-" gorm:"primaryKey"`
+	AuthorId    int64  `json:"-", gorm:"not null"`
 	Name        string `json:"Name" gorm:"not null"`
 	Description string `json:"Description" gorm:"not null"`
 }
