@@ -1,9 +1,7 @@
 package main
 
-import (
-	swTaskManager "go_projects/project23"
-)
+import weather "go_projects/project24"
 
 func main() {
-	swTaskManager.SwTask()
+	weather.Weather()
 }

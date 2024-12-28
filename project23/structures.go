@@ -16,12 +16,12 @@ type Login struct {
 }
 
 type Claims struct {
-	UserId       int64  `json:"user_id"`
-	UserName     string `json:"user_name"`
-	UserEmail    string `json:"user_email"`
-	UserPassword string `json:"user_password"`
-	UserRole     string `json:"user_role"`
-	jwt.RegisteredClaims
+	UserId               int64  `json:"user_id"`
+	UserName             string `json:"user_name"`
+	UserEmail            string `json:"user_email"`
+	UserPassword         string `json:"user_password"`
+	UserRole             string `json:"user_role"`
+	jwt.RegisteredClaims `swaggerignore:"true"`
 }
 
 type Task struct {

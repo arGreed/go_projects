@@ -1,3 +1,17 @@
+// @title Task Manager API
+// @version 1.0
+// @description Это API для управления задачами и пользователями.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email support@taskmanager.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8081
+// @BasePath /
+// @schemes http
 package swTaskManager
 
 import (
@@ -16,7 +30,6 @@ import (
 )
 
 var (
-	dsn       string = "host=localhost user=postgres password=admin dbname=postgres port=5432 sslmode=disable"
 	logFile   string = "project23/test.log"
 	jwtSecret string = "EVDFOIGHNWECNOGVI[iodnhbplsefnqweoijnmgherpsdopiawmf['wsedm,g[]]]"
 )

@@ -9,6 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
+// @Summary Получить информацию о себе
+// @Description Возвращает информацию о текущем пользователе.
+// @Tags user
+// @Produce json
+// @Success 200 {object} Claims
+// @Failure 401 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /showMe [get]
 func showMe(c *gin.Context) {
 	var claims Claims
 	a, _ := c.Get("userId")
@@ -24,6 +32,15 @@ func showMe(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"you": claims})
 }
 
+// @Summary Регистрация пользователя
+// @Description Регистрирует нового пользователя.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param user body User true "Данные пользователя"
+// @Success 200 {object} User
+// @Failure 400 {object} map[string]string
+// @Router /register [post]
 func register(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var user User
@@ -43,6 +60,15 @@ func register(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Логин пользователя
+// @Description Аутентифицирует пользователя и возвращает JWT-токен.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param login body Login true "Данные для входа"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Router /login [post]
 func login(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var login Login
@@ -69,10 +95,27 @@ func login(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Проверка соединения
+// @Description Проверяет, что сервер работает.
+// @Tags utils
+// @Produce json
+// @Success 200 {object} map[string]string
+// @Router /ping [get]
 func ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "connected"})
 }
 
+// @Summary Добавить задачу
+// @Description Создает новую задачу.
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Param task body Task true "Данные задачи"
+// @Success 200 {object} Task
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /task/add [post]
 func addTask(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var task Task
@@ -95,6 +138,15 @@ func addTask(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Получить список всех задач
+// @Description Возвращает список всех задач (доступно только админу).
+// @Tags tasks
+// @Produce json
+// @Success 200 {array} Task
+// @Failure 403 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /task/all [get]
 func allTask(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, _ := c.Get("userRole")
@@ -114,6 +166,15 @@ func allTask(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Получить список всех пользователей
+// @Description Возвращает список всех пользователей (доступно только админу).
+// @Tags user
+// @Produce json
+// @Success 200 {array} User
+// @Failure 403 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /user/all [get]
 func allUser(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, _ := c.Get("userRole")
@@ -133,6 +194,17 @@ func allUser(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Удалить пользователя
+// @Description Удаляет пользователя по его ID (доступно только админу).
+// @Tags user
+// @Produce json
+// @Param id path int true "ID пользователя"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 403 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /user/delete/{id} [delete]
 func delUser(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, _ := c.Get("userRole")
@@ -170,6 +242,16 @@ func delUser(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Удалить задачу
+// @Description Удаляет задачу по её ID.
+// @Tags tasks
+// @Produce json
+// @Param id path int true "ID задачи"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /task/delete/{id} [delete]
 func delTask(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		param := c.Param("id")
@@ -210,6 +292,19 @@ func delTask(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// @Summary Обновить задачу
+// @Description Обновляет задачу по её ID.
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Param id path int true "ID задачи"
+// @Param task body Task true "Новые данные задачи"
+// @Success 200 {object} Task
+// @Failure 400 {object} map[string]string
+// @Failure 403 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Security ApiKeyAuth
+// @Router /task/update/{id} [put]
 func updateTask(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		param := c.Param("id")
