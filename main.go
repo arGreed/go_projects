@@ -1,7 +1,7 @@
 package main
 
-import weather "go_projects/project24"
+import firstChat "go_projects/project25"
 
 func main() {
-	weather.Weather()
+	firstChat.WebChat()
 }
